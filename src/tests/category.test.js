@@ -1,10 +1,11 @@
 const request = require("supertest");
 const app = require("../app");
+require("../models");
 
 const BASE_URL_USERS = "/api/v1/users/login";
 const BASE_URL = "/api/v1/categories";
-let TOKEN;
-let categoryId;
+let TOKEN
+let categoryId
 
 beforeAll(async () => {
   const user = {
@@ -12,14 +13,16 @@ beforeAll(async () => {
     password: "123456",
   };
 
-  const res = await request(app).post(BASE_URL_USERS).send(user);
+  const res = await request(app)
+  .post(BASE_URL_USERS)
+  .send(user);
 
   TOKEN = res.body.token;
 });
 
 test("POST -> 'BASE_URL, should return status code 201 and res.body.name === body.name", async () => {
   const category = {
-    name: "computers",
+    name: "Phone",
   };
 
   const res = await request(app)
@@ -33,10 +36,12 @@ test("POST -> 'BASE_URL, should return status code 201 and res.body.name === bod
 });
 
 test("Get -> 'BASE_URL, should return status code 200 and res.body.length === 1", async () => {
-  const res = await request(app).get(BASE_URL);
+  const res = await request(app)
+  .get(BASE_URL);
 
   expect(res.status).toBe(200);
   expect(res.body).toHaveLength(1);
+
 });
 
 test("DELETE -> 'BASE_URL, should return status code 204 and res.body === body.name", async () => {
@@ -45,4 +50,5 @@ test("DELETE -> 'BASE_URL, should return status code 204 and res.body === body.n
     .set("Authorization", `Bearer ${TOKEN}`);
 
   expect(res.status).toBe(204);
+
 });

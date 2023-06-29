@@ -1,5 +1,16 @@
-const product = require("./Product")
-const category = require('./Category')
+const Product = require("./Product")
+const Category = require("./Category")
+const Cart = require("./Cart")
+const User = require("./User")
 
-product.belongsTo(category)
-category.hasMany(product)
+//Product -> //categoryId
+Product.belongsTo(Category)
+Category.hasMany(Product)
+
+//Cart -> //userId
+Cart.belongsTo(User)
+User.hasOne(Cart)
+
+//Cart -> //productId
+Cart.belongsTo(Product)
+Product.hasMany(Cart)
