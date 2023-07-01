@@ -5,7 +5,7 @@ const Category = require("../models/Category");
 
 const BASE_URL_USERS = "/api/v1/users/login";
 let TOKEN;
-const BASE_URL = "/api/v1/products";
+const BASE_URL_PRODUCTS = "/api/v1/products";
 let category;
 let productId;
 
@@ -35,7 +35,7 @@ test("POST -> 'BASE_URL, should return status code 201 and res.body.title === bo
   };
 
   const res = await request(app)
-    .post(BASE_URL)
+    .post(BASE_URL_PRODUCTS)
     .send(product)
     .set("Authorization", `Bearer ${TOKEN}`);
 
@@ -46,7 +46,8 @@ test("POST -> 'BASE_URL, should return status code 201 and res.body.title === bo
 });
 
 test("GET -> 'URL_BASE', should return status code 200 and res.body to have length 1", async () => {
-  const res = await request(app).get(BASE_URL);
+  const res = await request(app)
+  .get(BASE_URL_PRODUCTS);
 
   expect(res.status).toBe(200);
   expect(res.body).toHaveLength(1);
@@ -54,7 +55,7 @@ test("GET -> 'URL_BASE', should return status code 200 and res.body to have leng
 });
 
 test("GET One -> 'URL_BASE/:id', should return status code 200 and res.body.title === body.title", async () => {
-  const res = await request(app).get(`${BASE_URL}/${productId}`);
+  const res = await request(app).get(`${BASE_URL_PRODUCTS}/${productId}`);
 
   expect(res.status).toBe(200);
   expect(res.body.title).toBe("Iphone 14");
@@ -65,7 +66,7 @@ test("Put -> 'URL_BASE', should return status code 200", async () => {
     title: "Iphone 13",
   };
   const res = await request(app)
-    .put(`${BASE_URL}/${productId}`)
+    .put(`${BASE_URL_PRODUCTS}/${productId}`)
     .send(product)
     .set("Authorization", `Bearer ${TOKEN}`);
 
@@ -75,7 +76,7 @@ test("Put -> 'URL_BASE', should return status code 200", async () => {
 
 test("DELETE -> 'BASE_URL/:id', should return status code 204", async () => {
   const res = await request(app)
-    .delete(`${BASE_URL}/${productId}`)
+    .delete(`${BASE_URL_PRODUCTS}/${productId}`)
     .set("Authorization", `Bearer ${TOKEN}`);
 
   expect(res.status).toBe(204);
